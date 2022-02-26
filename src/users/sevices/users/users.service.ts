@@ -16,7 +16,7 @@ export class UsersService {
   async getUser(id: any) {
     const user = await this.userModel.findById(id).exec();
     if (!user) {
-      throw new NotFoundException(`The user with rhe id ${id} was not founded`);
+      throw new NotFoundException(`The user with the id ${id} was not founded`);
     }
     return {
       message: 'User',
@@ -40,7 +40,7 @@ export class UsersService {
     );
 
     if (!user) {
-      throw new NotFoundException(`The user with rhe id ${id} was not founded`);
+      throw new NotFoundException(`The user with the id ${id} was not founded`);
     }
     return {
       message: 'User updated',
@@ -51,7 +51,7 @@ export class UsersService {
   async deleteUser(id: any) {
     const user = await this.userModel.findByIdAndDelete(id);
     if (!user) {
-      throw new NotFoundException(`The user with rhe id ${id} was not founded`);
+      throw new NotFoundException(`The user with the id ${id} was not founded`);
     }
     return {
       message: 'User deleted',
