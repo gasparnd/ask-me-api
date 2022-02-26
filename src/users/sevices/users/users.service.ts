@@ -1,40 +1,58 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { Db } from 'mongodb';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { User } from 'src/users/entities/user.entity';
+import { Model } from 'mongoose';
+import { CreateUserDto, UpdateUserDto } from 'src/users/dtos/users.dto';
 
 @Injectable()
 export class UsersService {
-  constructor(@Inject('MONGO') private database: Db) {}
+  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
   async getUsers() {
-    const usersCollection = this.database.collection('users');
-    const users = await usersCollection.find().toArray();
+    const users = await this.userModel.find().exec();
     return { message: 'Users listed', data: users };
   }
 
-  getUser(id: any) {
+  async getUser(id: any) {
+    const user = await this.userModel.findById(id).exec();
+    if (!user) {
+      throw new NotFoundException(`The user with rhe id ${id} was not founded`);
+    }
     return {
       message: 'User',
-      data: {
-        User: 'Hello',
-      },
+      data: user,
     };
   }
 
-  createUser(payload: any) {
+  async createUser(payload: CreateUserDto) {
+    const user = await new this.userModel(payload);
+    user.save();
     return {
       message: 'User created',
-      data: payload,
     };
   }
 
-  updateUser(id: any, payload: any) {
+  async updateUser(id: any, payload: UpdateUserDto) {
+    const user = await this.userModel.findByIdAndUpdate(
+      id,
+      { $set: payload },
+      { new: true },
+    );
+
+    if (!user) {
+      throw new NotFoundException(`The user with rhe id ${id} was not founded`);
+    }
     return {
       message: 'User updated',
-      data: payload,
+      data: user,
     };
   }
 
-  deleteUser(id: any) {
+  async deleteUser(id: any) {
+    const user = await this.userModel.findByIdAndDelete(id);
+    if (!user) {
+      throw new NotFoundException(`The user with rhe id ${id} was not founded`);
+    }
     return {
       message: 'User deleted',
     };

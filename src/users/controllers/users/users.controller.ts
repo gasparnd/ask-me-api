@@ -7,6 +7,8 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
+import { MongoIdPipe } from 'src/common/mongo-id.pipe';
+import { CreateUserDto, UpdateUserDto } from 'src/users/dtos/users.dto';
 import { UsersService } from 'src/users/sevices/users/users.service';
 
 @Controller('users')
@@ -19,22 +21,22 @@ export class UsersController {
   }
 
   @Get(':id')
-  getUser(@Param('id') id: any) {
+  getUser(@Param('id') id: MongoIdPipe) {
     return this.usersServices.getUser(id);
   }
 
   @Post()
-  createUser(@Body() payload: any) {
+  createUser(@Body() payload: CreateUserDto) {
     return this.usersServices.createUser(payload);
   }
 
   @Patch(':id')
-  updateUser(@Param('id') id: any, @Body() payload: any) {
+  updateUser(@Param('id') id: MongoIdPipe, @Body() payload: UpdateUserDto) {
     return this.usersServices.updateUser(id, payload);
   }
 
   @Delete(':id')
-  deleteUser(@Param('id') id: any) {
+  deleteUser(@Param('id') id: MongoIdPipe) {
     return this.usersServices.deleteUser(id);
   }
 }
