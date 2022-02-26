@@ -1,9 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { Db } from 'mongodb';
 
 @Injectable()
 export class UsersService {
-  getUsers() {
-    return { message: 'Users listed', data: [] };
+  constructor(@Inject('MONGO') private database: Db) {}
+
+  async getUsers() {
+    const usersCollection = this.database.collection('users');
+    const users = await usersCollection.find().toArray();
+    return { message: 'Users listed', data: users };
   }
 
   getUser(id: any) {
