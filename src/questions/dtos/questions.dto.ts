@@ -11,7 +11,7 @@ export class CreateQuetion {
 
   @IsNotEmpty()
   @IsMongoId()
-  readonly user: string;
+  readonly userId: string;
 }
 
 export class AnswerQuestion {

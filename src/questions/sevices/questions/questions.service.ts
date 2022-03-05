@@ -36,7 +36,7 @@ export class QuestionsService {
     const question = await new this.questionModel(payload);
     question.save();
     const insertQuestion = this.userServices.insertQuestion(
-      payload.user,
+      payload.userId,
       question.id,
     );
     if (insertQuestion) {

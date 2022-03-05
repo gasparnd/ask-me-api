@@ -14,7 +14,7 @@ export class Question extends Document {
   name: string;
 
   @Prop({ type: Types.ObjectId, ref: 'User' })
-  user: User | Types.ObjectId;
+  userId: User | Types.ObjectId;
 
   // @Prop()
   // answerDate: string;
