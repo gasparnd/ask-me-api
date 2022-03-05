@@ -14,7 +14,10 @@ export class UsersService {
   }
 
   async getUser(id: any) {
-    const user = await this.userModel.findById(id).populate('questions').exec();
+    const user = await this.userModel
+      .findById(id)
+      .populate('questions', { user: 0 })
+      .exec();
     if (!user) {
       throw new NotFoundException(`The user with the id ${id} was not founded`);
     }
