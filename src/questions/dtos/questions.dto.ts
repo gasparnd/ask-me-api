@@ -1,4 +1,4 @@
-import { IsDate, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsMongoId, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateQuetion {
   @IsOptional()
@@ -9,17 +9,17 @@ export class CreateQuetion {
   @IsNotEmpty()
   readonly question: string;
 
-  @IsDate()
   @IsNotEmpty()
-  readonly date: string;
+  @IsMongoId()
+  readonly user: string;
 }
 
-export class UpdateQuestion {
+export class AnswerQuestion {
   @IsNotEmpty()
   @IsString()
   readonly answer: string;
 
-  @IsDate()
-  @IsNotEmpty()
-  readonly answerDate: string;
+  // @IsDate()
+  // @IsNotEmpty()
+  // readonly answerDate: string;
 }

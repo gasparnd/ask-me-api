@@ -7,6 +7,11 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
+import { MongoIdPipe } from 'src/common/mongo-id.pipe';
+import {
+  AnswerQuestion,
+  CreateQuetion,
+} from 'src/questions/dtos/questions.dto';
 import { QuestionsService } from 'src/questions/sevices/questions/questions.service';
 
 @Controller('questions')
@@ -19,22 +24,25 @@ export class QuestionsController {
   }
 
   @Get(':id')
-  getQuestion(@Param('id') id: any) {
+  getQuestion(@Param('id') id: MongoIdPipe) {
     return this.questionsServices.getQuestion(id);
   }
 
   @Post()
-  createQuestion(@Body() payload: any) {
+  createQuestion(@Body() payload: CreateQuetion) {
     return this.questionsServices.createQuestion(payload);
   }
 
-  @Patch(':id')
-  updateQuestion(@Param('id') id: any, @Body() payload: any) {
-    return this.questionsServices.updateQuestion(id, payload);
+  @Patch('answer/:id')
+  answerQuestion(
+    @Param('id') id: MongoIdPipe,
+    @Body() payload: AnswerQuestion,
+  ) {
+    return this.questionsServices.answerQuestion(id, payload);
   }
 
   @Delete(':id')
-  deleteQuestion(@Param('id') id: any) {
+  deleteQuestion(@Param('id') id: MongoIdPipe) {
     return this.questionsServices.deleteQuestion(id);
   }
 }
