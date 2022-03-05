@@ -13,7 +13,7 @@ export class Question extends Document {
   @Prop()
   name: string;
 
-  @Prop({ type: Types.ObjectId, ref: User.name })
+  @Prop({ type: Types.ObjectId, ref: 'User' })
   user: User | Types.ObjectId;
 
   // @Prop()

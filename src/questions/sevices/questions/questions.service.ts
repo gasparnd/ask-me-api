@@ -1,16 +1,18 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Question } from 'src/questions/entities/qiestion.entity';
+import { Question } from 'src/questions/entities/question.entity';
 import { Model } from 'mongoose';
 import {
   AnswerQuestion,
   CreateQuetion,
 } from 'src/questions/dtos/questions.dto';
+import { UsersService } from 'src/users/sevices/users/users.service';
 
 @Injectable()
 export class QuestionsService {
   constructor(
     @InjectModel(Question.name) private questionModel: Model<Question>,
+    private userServices: UsersService,
   ) {}
   async getQuestions() {
     const questions = await this.questionModel.find().exec();
@@ -33,9 +35,15 @@ export class QuestionsService {
   async createQuestion(payload: CreateQuetion) {
     const question = await new this.questionModel(payload);
     question.save();
-    return {
-      message: 'Question created',
-    };
+    const insertQuestion = this.userServices.insertQuestion(
+      payload.user,
+      question.id,
+    );
+    if (insertQuestion) {
+      return {
+        message: 'Question created',
+      };
+    }
   }
 
   async answerQuestion(id: any, payload: AnswerQuestion) {

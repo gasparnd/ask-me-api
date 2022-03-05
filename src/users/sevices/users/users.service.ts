@@ -9,12 +9,12 @@ export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
   async getUsers() {
-    const users = await this.userModel.find().exec();
+    const users = await this.userModel.find().populate('questions').exec();
     return { message: 'Users listed', data: users };
   }
 
   async getUser(id: any) {
-    const user = await this.userModel.findById(id).exec();
+    const user = await this.userModel.findById(id).populate('questions').exec();
     if (!user) {
       throw new NotFoundException(`The user with the id ${id} was not founded`);
     }
@@ -29,6 +29,18 @@ export class UsersService {
     user.save();
     return {
       message: 'User created',
+    };
+  }
+
+  async insertQuestion(id, questionId) {
+    const user = await this.userModel.findById(id);
+    if (!user) {
+      throw new NotFoundException(`The user with the id ${id} was not founded`);
+    }
+    user.questions.push(questionId);
+    user.save();
+    return {
+      message: 'Question inserted',
     };
   }
 

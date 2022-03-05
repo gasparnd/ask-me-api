@@ -30,6 +30,14 @@ export class UsersController {
     return this.usersServices.createUser(payload);
   }
 
+  @Patch(':id/insertQuestion/:questionId')
+  insertQuestion(
+    @Param('id') id: MongoIdPipe,
+    @Param('questionId') questionId: MongoIdPipe,
+  ) {
+    return this.usersServices.insertQuestion(id, questionId);
+  }
+
   @Patch(':id')
   updateUser(@Param('id') id: MongoIdPipe, @Body() payload: UpdateUserDto) {
     return this.usersServices.updateUser(id, payload);
