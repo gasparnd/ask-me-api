@@ -6,7 +6,9 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
+import { ApiKeyGuard } from 'src/auth/guards/api-key.guard';
 import { MongoIdPipe } from 'src/common/mongo-id.pipe';
 import {
   AnswerQuestion,
@@ -14,6 +16,7 @@ import {
 } from 'src/questions/dtos/questions.dto';
 import { QuestionsService } from 'src/questions/sevices/questions.service';
 
+@UseGuards(ApiKeyGuard)
 @Controller('questions')
 export class QuestionsController {
   constructor(private questionsServices: QuestionsService) {}
