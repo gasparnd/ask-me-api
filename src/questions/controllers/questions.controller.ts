@@ -12,7 +12,7 @@ import {
   AnswerQuestion,
   CreateQuetion,
 } from 'src/questions/dtos/questions.dto';
-import { QuestionsService } from 'src/questions/sevices/questions/questions.service';
+import { QuestionsService } from 'src/questions/sevices/questions.service';
 
 @Controller('questions')
 export class QuestionsController {

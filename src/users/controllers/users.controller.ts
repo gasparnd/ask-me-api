@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { MongoIdPipe } from 'src/common/mongo-id.pipe';
 import { CreateUserDto, UpdateUserDto } from 'src/users/dtos/users.dto';
-import { UsersService } from 'src/users/sevices/users/users.service';
+import { UsersService } from 'src/users/sevices/users.service';
 
 @Controller('users')
 export class UsersController {
