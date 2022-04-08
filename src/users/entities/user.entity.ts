@@ -11,10 +11,13 @@ export class User extends Document {
   lastName: string;
 
   @Prop({ required: true, unique: true })
-  nikName: string;
+  nickName: string;
 
   @Prop({ required: true })
   email: string;
+
+  @Prop({ required: true })
+  role: string;
 
   @Prop({ required: true })
   password: string;
