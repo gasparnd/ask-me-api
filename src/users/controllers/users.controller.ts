@@ -8,26 +8,31 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
+import { Public } from 'src/auth/decorators/public.decorator';
 import { ApiKeyGuard } from 'src/auth/guards/api-key.guard';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { MongoIdPipe } from 'src/common/mongo-id.pipe';
 import { CreateUserDto, UpdateUserDto } from 'src/users/dtos/users.dto';
 import { UsersService } from 'src/users/sevices/users.service';
 
-@UseGuards(ApiKeyGuard)
+@UseGuards(ApiKeyGuard, JwtAuthGuard)
 @Controller('users')
 export class UsersController {
   constructor(private usersServices: UsersService) {}
 
+  @Public()
   @Get()
   getUsers() {
     return this.usersServices.getUsers();
   }
 
+  @Public()
   @Get(':id')
   getUser(@Param('id') id: MongoIdPipe) {
     return this.usersServices.getUser(id);
   }
 
+  @Public()
   @Post()
   createUser(@Body() payload: CreateUserDto) {
     return this.usersServices.createUser(payload);
