@@ -25,10 +25,8 @@ import config from '../config';
     {
       provide: 'MONGO',
       useFactory: async (configService: ConfigType<typeof config>) => {
-        const { connection, user, password, port, host, dbName } =
-          configService.mongo;
-        const uri = `${connection}://${user}:${password}@${host}:${port}/?authSource=admin&readPreference=primary`;
-        const client = new MongoClient(uri);
+        const { connection, dbName } = configService.mongo;
+        const client = new MongoClient(connection);
         await client.connect();
         const db = client.db(dbName);
 

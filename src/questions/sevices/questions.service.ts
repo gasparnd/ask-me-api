@@ -33,6 +33,14 @@ export class QuestionsService {
   }
 
   async createQuestion(payload: CreateQuetion) {
+    const user = await this.userServices.getUser(payload.userId);
+
+    if (!user) {
+      throw new NotFoundException(
+        `The user with the id ${payload.userId} was not founded`,
+      );
+    }
+
     const question = await new this.questionModel(payload);
     question.save();
     const insertQuestion = this.userServices.insertQuestion(

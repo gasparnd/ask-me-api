@@ -33,6 +33,18 @@ export class UsersController {
   }
 
   @Public()
+  @Get('@/:nickname')
+  getUserByNickname(@Param('nickname') nickname: string) {
+    return this.usersServices.findUserByNickName(nickname);
+  }
+
+  @Public()
+  @Get('questions/:id')
+  getUserQuestions(@Param('id') id: MongoIdPipe) {
+    return this.usersServices.getQuestion(id);
+  }
+
+  @Public()
   @Post()
   createUser(@Body() payload: CreateUserDto) {
     return this.usersServices.createUser(payload);

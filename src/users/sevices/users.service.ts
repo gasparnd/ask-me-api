@@ -31,6 +31,22 @@ export class UsersService {
     };
   }
 
+  async getQuestion(id: any) {
+    const user = await this.userModel
+      .findById(id)
+      .populate('questions', { userId: 0 })
+      .exec();
+
+    if (!user) {
+      throw new NotFoundException(`The user with the id ${id} was not founded`);
+    }
+
+    return {
+      message: 'User questions',
+      data: user.questions,
+    };
+  }
+
   async findUserByNickName(nickName) {
     const user = await this.userModel.findOne({ nickName }).exec();
     return user;
